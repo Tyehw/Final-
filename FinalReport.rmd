@@ -12,9 +12,9 @@ triUmp <-read.csv(file="triUmpsal.csv",header=TRUE)
 ```
 
 # Introduction
-Using the triump data set, we will determine  if the if the preventative drug (Triumpsal) is effective only considering the females in the trial.  
-  $H_0$ The drug doesn't make a difference.  
-  $H_A$ the drug does make a difference, the infection rates are not the same for the drug and placebo groups.   
+Using the triump data set, we will determine: If the preventative drug (Triumpsal) is effective only considering the females in the trial.  
+  $H_0$ The drug isn't effective on the females in the study.
+  $H_A$ the drug is effective on the females in the study.
 
 
 
@@ -23,8 +23,9 @@ Using the triump data set, we will determine  if the if the preventative drug (T
 A new  preventative aides drug (triUmpsal) is under test in clinical trials. Consider only the females, does this drug seem effective?  Hint - use dplyr to obtain that subpopulation with the filter command.
 
 # Methods
-Sex is categorical.   
-Result is categorical.   
+Treatment is categorical 
+Infected is categorical 
+This will be a categorical-categorical  
 I filtered the results, to only show the female participants, because we are only looking at the effects on females in the study
 ```{r}
 female_triUmp <- triUmp %>%
@@ -39,35 +40,37 @@ female_triUmp <- triUmp %>%
 ## Descriptive Results
 
 ### Graphical Descriptive Results
-```{r}
-ggplot(female_triUmp, aes(x = treatment, fill = infected)) +
-  geom_bar(position = "fill") +
-  labs(title = "Infection Status by Treatment Group for Females",
-       x = "Treatment Group",
-       y = "Proportion",
-       fill = "Infection Status")
-```
+
 
 <!--Graphical results here.  Make sure to show your code.  Provide appropriate labels for axes, giving units if possible, and provide a good title for the graph, too.  Use the graphical results to describe the patterns if any that exist in the data as focused toward the research question. Bottom line is to explain the features of the graph that are relevant to conforming or departing to what is expected by your null hypothesis !-->
+```{r}
+barchartGC(~treatment + gender,data=triUmp)
+barchartGC(~treatment + gender,data=triUmp, type="percent")
+```
 
 ### Numerical Descriptive Results
-
-This graph shows that triUmpsal does not seem to help the females in this study from contracting aids, the females who took the drig got infected slightly more often than the females who took the placebo. 
+```{r}
+table2 <- xtabs(~infected + gender, data=triUmp)
+rowPerc(table2)
+colPerc(table2)
+```
 
 ```{r}
-female_table <- table(female_triUmp$treatment, female_triUmp$infected)
-female_table
+table2 <- xtabs(~treatment + gender, data=triUmp)
+rowPerc(table2)
+colPerc(table2)
 ```
-```{r}
-prop.table(female_table, margin = 1)
-```
+
 
 <!--Numerical results go here. Use the numerical results to describe the patterns if any that exist in the data as focused toward the research question!-->
 
 ## Inferential Results
 
+
 ```{r}
-chisq.test(female_table)
+chisq.test(table2)
+chisqtestGC(table2)
+fisher.test(table2)
 ```
 
 <!--State hypothesis clearly.  Make sure your discussion of the inferential test covers all the aspects that the test output produces, such as test statistic, p-value etc.  Make a decision about the null hypothesis, explain the assumptions on which the selected test/procedure was based, and why the chosen procedure satisfys the assumptions and is appropriate to answer the research question!-->
