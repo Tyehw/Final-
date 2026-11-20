@@ -17,7 +17,6 @@ Using the triump data set, we will determine: If the preventative drug (Triumpsa
   $H_A$ the drug is effective on the females in the study.
 
 
-
 <!--In this section you explain what you are trying to show.  Where did the data come from?  What is the research or other question you are trying to answer?.  If you skimp in this section expect to be marked down in your grade. Paint a picture of the project a couple of paragraphs is expected!-->
 
 A new  preventative aides drug (triUmpsal) is under test in clinical trials. Consider only the females, does this drug seem effective?  Hint - use dplyr to obtain that subpopulation with the filter command.
@@ -43,10 +42,18 @@ female_triUmp <- triUmp %>%
 
 
 <!--Graphical results here.  Make sure to show your code.  Provide appropriate labels for axes, giving units if possible, and provide a good title for the graph, too.  Use the graphical results to describe the patterns if any that exist in the data as focused toward the research question. Bottom line is to explain the features of the graph that are relevant to conforming or departing to what is expected by your null hypothesis !-->
+
+```{r}
+barchartGC(~treatment + infected,data=triUmp)
+barchartGC(~treatment + infected,data=triUmp, type="percent")
+
+```  
 ```{r}
 barchartGC(~treatment + gender,data=triUmp)
 barchartGC(~treatment + gender,data=triUmp, type="percent")
 ```
+
+  This graph shows the number of females in the study were split up almost evenly. There is a slightly higher number of females who took the placebo that contracted aides. 
 
 ### Numerical Descriptive Results
 ```{r}
